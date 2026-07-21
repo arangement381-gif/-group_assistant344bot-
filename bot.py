@@ -1,13 +1,8 @@
-"""
-Group Assistant 344 Bot
-Main entry point for the Telegram bot
-Deployed on Railway with GitHub integration
-"""
-
 import os
 import logging
 import sys
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler
+from telegram import Update
 from config import Config
 from handlers import (
     start, help_command, about, ping, echo, 
@@ -34,10 +29,18 @@ def main():
         init_db()
         logger.info("✅ Database initialized successfully")
         
-        # Get bot token
-        token = Config.TELEGRAM_BOT_TOKEN
-        if not token:
-            logger.error("❌ TELEGRAM_BOT_TOKEN not set in environment variables")
+        # Get bot token - with better error handling
+        token = os.environ.get('TELEGRAM_BOT_TOKEN')
+        
+        if not token or token == "YOUR_BOT_TOKEN_HERE":
+            logger.error("❌ TELEGRAM_BOT_TOKEN is missing or invalid")
+            logger.error("Please set TELEGRAM_BOT_TOKEN in Railway environment variables")
+            logger.info("To fix this:")
+            logger.info("1. Go to your Railway project")
+            logger.info("2. Click on your service")
+            logger.info("3. Go to the 'Variables' tab")
+            logger.info("4. Add TELEGRAM_BOT_TOKEN with your bot token")
+            logger.info("5. Redeploy the service")
             sys.exit(1)
         
         # Create application
@@ -69,6 +72,9 @@ def main():
         
     except Exception as e:
         logger.error(f"❌ Failed to start bot: {str(e)}")
+        logger.info("Attempting to restart in 5 seconds...")
+        import time
+        time.sleep(5)
         sys.exit(1)
 
 if __name__ == "__main__":
