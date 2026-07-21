@@ -1,8 +1,3 @@
-"""
-Configuration settings for the bot
-Uses environment variables for security
-"""
-
 import os
 from dotenv import load_dotenv
 
@@ -14,6 +9,11 @@ class Config:
     
     # Required: Telegram Bot Token (from @BotFather)
     TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
+    
+    # If token is missing, use a placeholder (for development only)
+    if not TELEGRAM_BOT_TOKEN:
+        print("⚠️ WARNING: TELEGRAM_BOT_TOKEN not set. Using placeholder.")
+        TELEGRAM_BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
     
     # Optional: Bot settings
     BOT_NAME = os.environ.get('BOT_NAME', 'Group Assistant 344')
