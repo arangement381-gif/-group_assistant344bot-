@@ -1,35 +1,7 @@
-# Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
-.venv
-dist/
-build/
-*.egg-info/
-
-# Environment variables
+*.pyc
 .env
-*.env
-
-# Database
 *.db
-*.sqlite3
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-.DS_Store
-
-# Logs
 *.log
-bot.log
-
-# Railway
-.railway/
+.venv/
+venv/
